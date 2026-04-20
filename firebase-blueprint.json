@@ -1,0 +1,56 @@
+{
+  "entities": {
+    "Appointment": {
+      "title": "Appointment",
+      "description": "A scheduled meeting slot.",
+      "type": "object",
+      "properties": {
+        "clientName": { "type": "string", "description": "Tên của bạn." },
+        "guide": { "type": "string", "description": "Hướng dẫn viên." },
+        "question": { "type": "string", "description": "Bạn cần hỏi gì từ Sư Huynh?" },
+        "date": { "type": "string", "description": "Date of the appointment (YYYY-MM-DD)." },
+        "startTime": { "type": "string", "description": "Start time (HH:mm)." },
+        "endTime": { "type": "string", "description": "End time (HH:mm)." },
+        "password": { "type": "string", "description": "Mật mã bảo vệ lịch hẹn." },
+        "status": { "type": "string", "enum": ["active", "cancelled"], "description": "Trạng thái lịch hẹn." },
+        "duration": { "type": "number", "description": "Duration in minutes." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the booking was made." }
+      },
+      "required": ["clientName", "guide", "question", "date", "startTime", "endTime", "password", "createdAt"]
+    },
+    "LockedSlot": {
+      "title": "Locked Slot",
+      "description": "A slot blocked by the admin.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string" },
+        "startTime": { "type": "string" },
+        "reason": { "type": "string" },
+        "password": { "type": "string", "description": "Master password for override" }
+      }
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Global application settings.",
+      "type": "object",
+      "properties": {
+        "slotDuration": { "type": "number", "default": 30 },
+        "password": { "type": "string", "description": "Master password for override" }
+      }
+    }
+  },
+  "firestore": {
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Collection of all appointments."
+    },
+    "/lockedSlots/{slotId}": {
+      "schema": "LockedSlot",
+      "description": "Slots blocked by admin."
+    },
+    "/settings/global": {
+      "schema": "Settings",
+      "description": "Global settings."
+    }
+  }
+}
